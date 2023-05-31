@@ -16,8 +16,8 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -33,11 +33,12 @@ public class Project {
 	private String titulo;
 	
 	@NotBlank(message="Por favor ingresa una descripcion")
-	@Min(value=3, message="Por favor descripcion minima de 3 caracteres")
+	@Size(min=3, message="Por favor descripcion minima de 3 caracteres")
 	@Column(length = 65535, columnDefinition = "text")
 	private String description;
 	
 	@Future(message = "Por ingresa una fecha posterior")
+	@NotNull(message="Ingresa una fecha por favor")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaEvento;
 	
@@ -45,6 +46,7 @@ public class Project {
 	@Column(updatable = false)
 	private Date createdAt;
 	private Date updatedAt;
+	
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")

@@ -57,7 +57,7 @@ public class UserController {
 			User usuarioLog = userService.findByEmail(loginuser.getEmail());
 			sesion.setAttribute("userID",  usuarioLog.getId());
 //			System.out.println(sesion.getAttribute("userID") + "atributo ");
-			return "redirect:events";
+			return "redirect:dashboard";
 		}else {
 			viewModel.addAttribute("user", new User());
 			return "loginreg.jsp";

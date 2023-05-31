@@ -35,7 +35,6 @@
 				<form:form method="POST" action="/registration"
 					modelAttribute="user">
 					<div>
-
 						<form:label path="nombre">FirstName:</form:label>
 						<form:input class="form-control" type="text" path="nombre" />
 					</div>
