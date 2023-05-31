@@ -90,7 +90,7 @@ public class ProjectController {
 	}
 	
 	@PutMapping("/projects/edit/{id}")
-    public String guardarEdit(@Valid @ModelAttribute("project") Project project, BindingResult result,
+    public String guardarEdit(@Valid @ModelAttribute("proyecto") Project project, BindingResult result,
             @PathVariable("id") Long id, HttpSession sesion, Model m) {
         Long userId = (Long) sesion.getAttribute("userID");
         if (userId == null) {
@@ -102,7 +102,7 @@ public class ProjectController {
                 return "redirect:/dashboard";
             }
             m.addAttribute("usuario", userService.findUserById(userId));
-            m.addAttribute("projectid", pro);
+//            m.addAttribute("proyecto", pro);
             return "edit.jsp";
         }
 
