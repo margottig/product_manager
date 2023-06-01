@@ -40,9 +40,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${ todos_proyectos }" var="proyecto">
+				<c:forEach items="${ proyectos_no_suscritos }" var="proyecto">
 					<tr>
-						<td><a href="/project/${ proyecto.id }">${ proyecto.titulo }</a></td>
+						<td><a href="/projects/${ proyecto.id }">${ proyecto.titulo }</a></td>
 						<td>${ proyecto.lider.nombre }</td>
 						<td><fmt:formatDate value="${proyecto.fechaEvento}"
 								pattern="MMMM dd" var="fechaEvento" /> <c:out
@@ -57,15 +57,18 @@
 									</form>
 								</c:when>
 								<c:otherwise>
-									<%-- 							<c:choose>
-										<c:when test="${ proyecto.asistentes.contains(usuario) }">Join Team 
-											<a href="/event/${ proyecto.id }/${usuario.id }/cancel"> Leave Team</a>
+									<c:choose>
+										<c:when test="${ proyecto.compas.contains(usuario) }"> 
+											<a href="/project/${ proyecto.id }/${usuario.id }/cancel">
+												Leave Team</a>
 										</c:when>
 										<c:otherwise>
-											Leave Team <a href="/event/${ proyecto.id }/${usuario.id }/unirse">Join Team</a>
+											<a
+												href="/project/${ proyecto.id }/${usuario.id }/join">Join
+												Team</a>
 										</c:otherwise>
 
-									</c:choose> --%>
+									</c:choose>
 								</c:otherwise>
 							</c:choose></td>
 					</tr>
@@ -89,8 +92,7 @@
 					<tr>
 						<td><a href="/projects/${ proyecto.id }">${ proyecto.titulo }</a></td>
 						<td><fmt:formatDate value="${proyecto.fechaEvento}"
-								pattern="MMMM dd, yyyy" var="fechaEvento" />
-							${fechaEvento}</td>
+								pattern="MMMM dd, yyyy" var="fechaEvento" /> ${fechaEvento}</td>
 						<td>${ proyecto.lider.nombre }</td>
 						<td><c:choose>
 								<c:when test="${ proyecto.lider.id == usuario.id }">

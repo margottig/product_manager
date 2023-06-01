@@ -31,4 +31,19 @@ public class ProjectService {
 		return projectRepo.findById(idProyecto).orElse(null);
 
 	}
+	
+	public List<Project> getUsuariosNoAsignados(User usuario){
+		return projectRepo.findByCompasNotContains(usuario);
+	}
+	
+	public void unirseEquipo(Project pro, 
+			User usuario, boolean join) {
+//		System.out.println(evento.getNombreEvento() + usuario.getNombre() + " aquiiiii ");
+		if(join) {
+			pro.getCompas().add(usuario);
+		}else {
+			pro.getCompas().remove(usuario);
+		}
+		projectRepo.save(pro);
+	}
 }

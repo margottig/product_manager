@@ -17,4 +17,6 @@ public interface ProjectRepo extends CrudRepository<Project, Long>{
 	//Todos los proyectos asociados a un usuario especifico
 	List<Project> findAllByLider(User usuario);
 	
+	//
+	List<Project> findByCompasNotContains(User usuario);
 }
