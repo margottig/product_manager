@@ -38,8 +38,10 @@ public class ProjectController {
 		User usuarioLog = userService.findUserById(userId);
 
 		viewModel.addAttribute("usuario", usuarioLog);
-		viewModel.addAttribute("proyectos_no_suscritos", projectService.todosLosProyectos(usuarioLog.getId()));
+//		viewModel.addAttribute("proyectos_no_suscritos", projectService.todosLosProyectos(usuarioLog.getId()));
 		viewModel.addAttribute("proyectos_lider", projectService.proyectosLider(usuarioLog));
+		viewModel.addAttribute("proyectos_asignados", projectService.getUsuariosAsignados(usuarioLog));
+		viewModel.addAttribute("noasignados", projectService.getUsuariosNoAsignados(usuarioLog));
 		
 		return "dashboard.jsp";
 	}

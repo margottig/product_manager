@@ -36,6 +36,10 @@ public class ProjectService {
 		return projectRepo.findByCompasNotContains(usuario);
 	}
 	
+	public List<Project> getUsuariosAsignados(User usuario){
+		return projectRepo.findAllByCompas(usuario);
+	}
+	
 	public void unirseEquipo(Project pro, 
 			User usuario, boolean join) {
 //		System.out.println(evento.getNombreEvento() + usuario.getNombre() + " aquiiiii ");
