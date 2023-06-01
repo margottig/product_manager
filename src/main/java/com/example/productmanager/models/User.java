@@ -3,6 +3,7 @@ package com.example.productmanager.models;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -53,23 +54,29 @@ public class User {
 	private Date updatedAt;
 
 	// Relacion 1:n a Eventos
-	@OneToMany(mappedBy = "lider", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "lider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Project> proyectosLider;
 
-	// Relacion muchos a muchos hacia mensajes
-//		@OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)
-//		private List<Mensaje> mensajes;
+	// Relacion muchos a muchos hacia TASKS
+	@OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)
+	private List<Task> tasks;
 
 	// Relacion muchos a muchos de Usuarios y Eventos
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "colaboradores", 
-	joinColumns = @JoinColumn(name = "user_id"), 
-	inverseJoinColumns = @JoinColumn(name = "project_id"))
+	@JoinTable(name = "colaboradores", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "project_id"))
 	private List<Project> proyectosInteres;
 
 	// Constructors
 	public User() {
 
+	}
+
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
 	}
 
 	public List<Project> getProyectosInteres() {

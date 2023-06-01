@@ -3,6 +3,7 @@ package com.example.productmanager.models;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
@@ -15,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -36,7 +38,7 @@ public class Project {
 	private String titulo;
 
 	@NotBlank(message = "Por favor ingresa una descripcion")
-	@Size(min = 3, message = "Por favor descripcion minima de 3 caracteres")
+	@Length(min = 3, message = "Por favor descripcion minima de 3 caracteres")
 	@Column(length = 65535, columnDefinition = "text")
 	private String description;
 
@@ -53,15 +55,23 @@ public class Project {
 	@JoinColumn(name = "user_id")
 	private User lider;
 
+	// Relacion muchos a muchos hacia TASKS
+	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+	private List<Task> tasks;
+
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+
 	// Relacion muchos a muchos de Usuarios y Eventos
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "colaboradores", 
-	joinColumns = @JoinColumn(name = "project_id"), 
-	inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "colaboradores", joinColumns = @JoinColumn(name = "project_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> compas;
 
-	
-	
 	public List<User> getCompas() {
 		return compas;
 	}

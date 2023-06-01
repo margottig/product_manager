@@ -105,11 +105,7 @@
 						<td><c:choose>
 								<c:when test="${ proyecto.lider.id == usuario.id }">
 									<a href="/projects/edit/${ proyecto.id }">Edit</a> | 
- 									<form class="delete-form" action="/events/${ proyecto.id }"
-										method="post">
-										<input type="hidden" name="_method" value="delete" />
-										<button>Delete</button>
-									</form>
+ 									
 								</c:when>
 								<c:otherwise>
 									<c:choose>

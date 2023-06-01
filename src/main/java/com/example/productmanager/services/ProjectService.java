@@ -36,8 +36,8 @@ public class ProjectService {
 		return projectRepo.findByCompasNotContains(usuario);
 	}
 	
-	public List<Project> getUsuariosAsignados(User usuario){
-		return projectRepo.findAllByCompas(usuario);
+	public List<Project> getUsuariosAsignados(User usuario1, User usuario2){
+		return projectRepo.findByCompasOrLider(usuario1, usuario2);
 	}
 	
 	public void unirseEquipo(Project pro, 
@@ -49,5 +49,10 @@ public class ProjectService {
 			pro.getCompas().remove(usuario);
 		}
 		projectRepo.save(pro);
+	}
+	
+	public void deleteProject(Long id) {
+		projectRepo.deleteById(id);
+		
 	}
 }

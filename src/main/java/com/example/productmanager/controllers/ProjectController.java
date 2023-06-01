@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.productmanager.models.Project;
+import com.example.productmanager.models.Task;
 import com.example.productmanager.models.User;
 import com.example.productmanager.services.ProjectService;
+import com.example.productmanager.services.TaskService;
 import com.example.productmanager.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +28,8 @@ public class ProjectController {
 	private UserService userService;
 	@Autowired
 	private ProjectService projectService;
+	@Autowired
+	private TaskService taskService;
 
 	@GetMapping("/dashboard")
 	public String dashboard(Model viewModel, HttpSession sesion) {
@@ -40,7 +44,7 @@ public class ProjectController {
 		viewModel.addAttribute("usuario", usuarioLog);
 //		viewModel.addAttribute("proyectos_no_suscritos", projectService.todosLosProyectos(usuarioLog.getId()));
 		viewModel.addAttribute("proyectos_lider", projectService.proyectosLider(usuarioLog));
-		viewModel.addAttribute("proyectos_asignados", projectService.getUsuariosAsignados(usuarioLog));
+		viewModel.addAttribute("proyectos_asignados", projectService.getUsuariosAsignados(usuarioLog,usuarioLog ));
 		viewModel.addAttribute("noasignados", projectService.getUsuariosNoAsignados(usuarioLog));
 		
 		return "dashboard.jsp";
@@ -139,7 +143,60 @@ public class ProjectController {
 		return "redirect:/dashboard";
 	}
 	
+	// RUTA PARA BORRAR PROYECTO
+	@GetMapping("/projects/delete/{id}")
+	public String deleteProject(@PathVariable("id") Long id, HttpSession sesion) {
+		Long userLog = (Long) sesion.getAttribute("userID");
+		if (userLog == null) {
+			return "redirect:/";
+		}
+//		User user = userService.findUserById(userLog);
+//		if (user == null) {
+//			return "redirect:/";
+//		}
+		Project project = projectService.findProjectById(id);
+		if(userLog == project.getLider().getId()) {
+			projectService.deleteProject(id);
+			return"redirect:/dashboard";
+		}
+		return"redirect:/dashboard";
+	}
 	
+	@GetMapping("/projects/{proyectoId}/tasks")
+	public String formularioTasks(@ModelAttribute("task") Task task,
+			@PathVariable("proyectoId") Long proyectoId,HttpSession sesion, Model viewModel) {
+		Long userId = (Long) sesion.getAttribute("userID");
+		if (userId == null) {
+			return "redirect:/";
+		}
+		Project pro = projectService.findProjectById(proyectoId);
+		viewModel.addAttribute("proyecto", pro);
+		return "tasks.jsp";
+	}
+	
+	@PostMapping("/project/{idEvento}/tarea")
+	public String comentario(@Valid	@ModelAttribute("task") Task task, BindingResult resultado,
+			HttpSession sesion, Model viewModel, @PathVariable("idEvento") Long idEvento) {	
+		Long userId = (Long) sesion.getAttribute("userID");
+		if(userId == null) {
+			return "redirect:/"; 
+		}
+//		if(resultado.hasErrors()) {
+//			Project pro = projectService.findProjectById(idEvento);
+//			viewModel.addAttribute("proyecto", pro);
+//			return "tasks.jsp";
+//			
+//		}
+//		if(comentario.equals("")) {
+//			redirecAttr.addFlashAttribute("error", "Por favor escribe un comentario");
+//			return "redirect:/events/"+idEvento;
+//		}
+		Project proyecto = projectService.findProjectById(idEvento);
+		User usuario = userService.findUserById(userId);
+		taskService.crearTarea(task.getTask(), usuario, proyecto);
+		
+		return "redirect:/events/"+idEvento;
+	}
 	
 	
 	@GetMapping("/logout")

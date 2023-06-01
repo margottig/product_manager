@@ -36,22 +36,25 @@
 			</thead>
 			<tbody>
 				<tr class="table-active">
-					<td colspan="2" >Projects:</td>
-					<td colspan="2" > <c:out value="${proyecto.titulo }"></c:out></td>
+					<td colspan="2">Projects:</td>
+					<td colspan="2"><c:out value="${proyecto.titulo }"></c:out></td>
 				</tr>
 				<tr class="table-active">
-					<td colspan="2" >Description:</td>
-					<td colspan="2" ><c:out value="${proyecto.description }"></c:out></td>
+					<td colspan="2">Description:</td>
+					<td colspan="2"><c:out value="${proyecto.description }"></c:out></td>
 				</tr>
 				<tr class="table-active">
-					<td colspan="2" >Due Date:</td>
+					<td colspan="2">Due Date:</td>
 					<fmt:formatDate value="${proyecto.fechaEvento}"
-								pattern="MM/dd/yyyy" var="fechaEvento" />
-					<td colspan="2" ><c:out value="${fechaEvento }"></c:out></td>
+						pattern="MM/dd/yyyy" var="fechaEvento" />
+					<td colspan="2"><c:out value="${fechaEvento }"></c:out></td>
 				</tr>
 			</tbody>
 		</table>
-		<a href="/projects/${proyecto.id}/tasks"> See tasks! </a>
+		<a href="/projects/${proyecto.id}/tasks"> See tasks! </a> 
+		<br>
+		<a class=" btn btn-danger" href="/projects/delete/${ proyecto.id }">
+			Delete </a>
 	</div>
 
 </body>

@@ -20,5 +20,5 @@ public interface ProjectRepo extends CrudRepository<Project, Long>{
 	//
 	List<Project> findByCompasNotContains(User usuario);
 	
-	List<Project> findAllByCompas(User usuario);
+	List<Project> findByCompasOrLider(User usuario1, User usuario2);
 }
